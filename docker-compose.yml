@@ -1,31 +1,35 @@
 version: '3.8'
 
 services:
-  nessus:
+  openvas:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nessus
-    image: usuario/nessus:1.0
+    container_name: openvas
+    image: usuario/openvas:2.0
     ports:
-      - "8834:8834"
+      - "8080:8080"
     volumes:
-      - ./host_dirs/config:/opt/nessus/etc
-      - ./host_dirs/plugins:/opt/nessus/lib/nessus/plugins
-      - ./host_dirs/logs:/opt/nessus/var/nessus/logs
+      # Persistencia de configuración
+      - ./host_dirs/config:/etc/scanner
+      # Persistencia de datos/base de datos
+      - ./host_dirs/plugins:/var/lib/scanner
+      # Persistencia de logs
+      - ./host_dirs/logs:/var/log/scanner
     environment:
-      - NESSUS_ADMIN_USERNAME=admin
-      - NESSUS_ADMIN_PASSWORD=changeme123
+      # Scanner variables
+      - SCANNER_USERNAME=admin
+      - SCANNER_PASSWORD=changeme123
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8834/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 60s
     networks:
-      - nessus-net
+      - openvas-net
 
 networks:
-  nessus-net:
+  openvas-net:
     driver: bridge
