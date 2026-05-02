@@ -1,0 +1,14 @@
+time="2026-05-02T17:46:28-04:00" level=warning msg="/Users/usuario/nessus/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Network nessus_nessus-net Creating 
+ Network nessus_nessus-net Created 
+ Container nessus Creating 
+ Container nessus Created 
+ Container nessus Starting 
+Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: exec: "python3": executable file not found in $PATH
+time="2026-05-02T17:47:46-04:00" level=warning msg="/Users/usuario/nessus/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Network nessus_nessus-net Creating 
+ Network nessus_nessus-net Created 
+ Container nessus Creating 
+ Container nessus Created 
+ Container nessus Starting 
+ Container nessus Started 

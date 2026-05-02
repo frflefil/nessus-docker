@@ -1,0 +1,46 @@
+name: nessus
+services:
+  nessus:
+    build:
+      context: /Users/usuario/nessus
+      dockerfile: Dockerfile
+    container_name: nessus
+    environment:
+      NESSUS_ADMIN_PASSWORD: changeme123
+      NESSUS_ADMIN_USERNAME: admin
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://localhost:8834/
+      timeout: 10s
+      interval: 30s
+      retries: 3
+      start_period: 1m0s
+    image: usuario/nessus:1.0
+    networks:
+      nessus-net: null
+    ports:
+      - mode: ingress
+        target: 8834
+        published: "8834"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /Users/usuario/nessus/host_dirs/config
+        target: /opt/nessus/etc
+        bind: {}
+      - type: bind
+        source: /Users/usuario/nessus/host_dirs/plugins
+        target: /opt/nessus/lib/nessus/plugins
+        bind: {}
+      - type: bind
+        source: /Users/usuario/nessus/host_dirs/logs
+        target: /opt/nessus/var/nessus/logs
+        bind: {}
+networks:
+  nessus-net:
+    name: nessus_nessus-net
+    driver: bridge
