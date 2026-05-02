@@ -1,0 +1,5 @@
+host_dirs/
+.DS_Store
+*.log
+__pycache__/
+.env.local

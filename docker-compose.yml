@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  nessus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nessus
+    image: usuario/nessus:1.0
+    ports:
+      - "8834:8834"
+    volumes:
+      - ./host_dirs/config:/opt/nessus/etc
+      - ./host_dirs/plugins:/opt/nessus/lib/nessus/plugins
+      - ./host_dirs/logs:/opt/nessus/var/nessus/logs
+    environment:
+      - NESSUS_ADMIN_USERNAME=admin
+      - NESSUS_ADMIN_PASSWORD=changeme123
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8834/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - nessus-net
+
+networks:
+  nessus-net:
+    driver: bridge
